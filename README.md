@@ -17,10 +17,9 @@ Team X is responsible for this repository and deployment flows, contact team_a@c
 
 # For exercise evaluators
 ## Design choices
-The entrypoint will be [the folder design_documents/](01-Business_requirements_and_user interface.md), starting with the solution requirements.
+The entrypoint will be [the folder design_documents/](./01-Business_requirements_and_user interface.md), starting with the solution requirements.
 ## Deliveries
 For this exercise we have done a proof-of-concept and wrote associated documentation, explaining our assumptions and choices.
-- 
-- Second item
-- Third item
-- Fourth item
+- Providing a way for one user to submit their OpenSearch monitor changes.
+- Automatically validating their input and changes.
+- Testing these changes against an ephemeral OpenSearch instance.
