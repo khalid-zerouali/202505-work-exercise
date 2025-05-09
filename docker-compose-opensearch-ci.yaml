@@ -1,0 +1,54 @@
+# Run a single-node OpenSearch instance for our CI
+services:
+  opensearch-node1:
+    image: opensearchproject/opensearch:3.0.0
+    container_name: opensearch-node1
+    environment:
+      - discovery.type=single-node
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD
+    volumes:
+      - opensearch-data1:/usr/share/opensearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - opensearch-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -XGET --fail --insecure -u admin:$OPENSEARCH_INITIAL_ADMIN_PASSWORD \"https://localhost:9200/_cluster/health?wait_for_active_shards=1&timeout=5s\""]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+  # UI for local debugging
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:3.0.0
+    container_name: opensearch-dashboards
+    ports:
+      - 5601:5601
+    expose:
+      - "5601"
+    environment:
+      OPENSEARCH_HOSTS: '["https://opensearch-node1:9200"]'
+    networks:
+      - opensearch-net
+    depends_on:
+      opensearch-node1:
+        condition: service_healthy
+        restart: true
+  data-injector:
+    build:
+      context: .
+      dockerfile: Dockerfile.opensearch-ci
+      args:
+        OS_CLIENT_VER: 2.8.0
+    environment:
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD
+      - OPENSEARCH_HOST=opensearch-node1
+    depends_on:
+      opensearch-node1:
+        condition: service_healthy
+    networks:
+      - opensearch-net
+volumes:
+  opensearch-data1:
+networks:
+  opensearch-net:

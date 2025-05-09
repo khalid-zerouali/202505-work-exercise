@@ -1,0 +1,35 @@
+name: Validate Monitors JSON 
+on:
+  # Enable GitHub manual workflow launch
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate_monitors_file:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+      - name: Run the validator against the monitors JSON file
+        run: docker compose -f docker-compose-validator.yaml run opensearch-monitors-validation
+        continue-on-error: false
+      
+  test_deployment_on_opensearch_ci_instance:
+    # Test on Opensearch only after JSON file validation succeeds
+    needs: validate_monitors_file
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+      - name: Start the OpenSearch single-node instance & inject data
+        env:
+          OPENSEARCH_INITIAL_ADMIN_PASSWORD: ${{ secrets.OPENSEARCH_INITIAL_ADMIN_PASSWORD }}
+        # Terminate immediately once the injection and tests are finished, returns the exit code from those tests.
+        run: OPENSEARCH_INITIAL_ADMIN_PASSWORD=$OPENSEARCH_INITIAL_ADMIN_PASSWORD docker compose -f docker-compose-opensearch-ci.yaml up --exit-code-from data-injector
+        continue-on-error: false

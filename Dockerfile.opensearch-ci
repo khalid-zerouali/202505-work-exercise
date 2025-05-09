@@ -1,0 +1,7 @@
+FROM python:3.13.3-alpine3.21
+ARG OS_CLIENT_VER
+WORKDIR /src
+COPY . /src
+#TODO: Could get fancy and use Poetry
+RUN pip install opensearch-py==$OS_CLIENT_VER
+CMD python opensearch_ci/injector.py

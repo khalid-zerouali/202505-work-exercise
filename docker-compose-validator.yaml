@@ -1,0 +1,10 @@
+services:
+  opensearch-monitors-validation:
+    build:
+      context: .
+      dockerfile: Dockerfile.validator
+      args:
+        JSONSCHEMA_VER: 4.23.0
+    environment:
+      SCHEMA_FILE: monitors_validator/monitors_schema-v1.0.0.json
+      MONITORS_FILE: monitors.json

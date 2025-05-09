@@ -1,0 +1,1 @@
+![schema html](screenshots/schema_html.png?raw=true "HTML version of JSON data schema.")

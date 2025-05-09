@@ -1,0 +1,7 @@
+FROM python:3.13.3-alpine3.21
+ARG JSONSCHEMA_VER
+WORKDIR /src
+COPY . /src
+#TODO: Could get fancy and use Poetry
+RUN pip install jsonschema==$JSONSCHEMA_VER
+CMD jsonschema -i $MONITORS_FILE $SCHEMA_FILE 

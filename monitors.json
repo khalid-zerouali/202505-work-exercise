@@ -1,0 +1,29 @@
+{
+  "Monitors":
+    [
+      {
+        "Monitor_Name": "Index A check for error",
+        "Index": "index_a",
+        "Text2Scan_in_Message": "error",
+        "Time2Scan": "5m",
+        "notification_channel": "notification_channel_1",
+        "is_active": true
+      },
+      {
+        "Monitor_Name": "Index B check for warn",
+        "Index": "index_b",
+        "Text2Scan_in_Message": "warn",
+        "Time2Scan": "5m",
+        "notification_channel": "notification_channel_2",
+        "is_active": true
+      },
+      {
+        "Monitor_Name": "Index C check for error",
+        "Index": "index_c",
+        "Text2Scan_in_Message": "error",
+        "Time2Scan": "10m",
+        "notification_channel": "notification_channel_3",
+        "is_active": true
+      }
+    ]
+}
