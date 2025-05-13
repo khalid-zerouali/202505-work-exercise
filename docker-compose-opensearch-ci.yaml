@@ -13,6 +13,7 @@ services:
     networks:
       - opensearch-net
     healthcheck:
+      # Once shards are running, OpenSearch is running OK. Other dependent services will now start.
       test: ["CMD-SHELL", "curl -XGET --fail --insecure -u admin:$OPENSEARCH_INITIAL_ADMIN_PASSWORD \"https://localhost:9200/_cluster/health?wait_for_active_shards=1&timeout=5s\""]
       interval: 10s
       retries: 5
@@ -65,6 +66,25 @@ services:
     networks:
       - opensearch-net
     # Make it run after OpenSearch is up and running
+    depends_on:
+      opensearch-node1:
+        condition: service_healthy
+        restart: true
+  status_ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.status-ui
+    container_name: status_ui
+    environment:
+      # Demo mode, normally a dedicated monitor user with limited permissions should be used
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD
+      - OPENSEARCH_HOST=opensearch-node1
+    ports:
+      - "5001:5001"
+    networks:
+      - opensearch-net
+    volumes:
+      - ./status_ui:/app
     depends_on:
       opensearch-node1:
         condition: service_healthy

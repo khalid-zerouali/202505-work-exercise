@@ -1,0 +1,12 @@
+FROM python:3.13.3-alpine3.21
+WORKDIR /app
+COPY ./status_ui/ .
+RUN pip install --no-cache-dir -r requirements.txt
+# Install Tailwind CSS
+RUN apk add --update nodejs npm
+RUN npm install tailwindcss @tailwindcss/cli
+# Compiling CSS for later use
+# CDN file is also an option
+RUN npx --yes @tailwindcss/cli -i ./static/css/style.css -o ./static/css/output-style.css
+EXPOSE 5001
+CMD ["python", "app.py"]

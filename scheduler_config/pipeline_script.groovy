@@ -30,7 +30,7 @@ pipeline {
                 sh '''
                     python3 -m venv .venv
                     . .venv/bin/activate
-                    python3 opensearch_ci/injector.py
+                    jsonschema -i monitors.json monitors_validator/monitors_schema-v1.0.0.json
                 '''
               }
             }
@@ -39,7 +39,7 @@ pipeline {
                 sh '''
                     python3 -m venv .venv
                     . .venv/bin/activate
-                    jsonschema -i monitors.json monitors_validator/monitors_schema-v1.0.0.json
+                    python3 opensearch_ci/injector.py
                 '''
               }
             }

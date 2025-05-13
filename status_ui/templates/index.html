@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>OpenSearch Monitors Status</title>
+</head>
+<body>
+    <div class="mt-6 shadow-lg rounded-lg overflow-hidden mx-4 md:mx-10">
+        <h1 class="text-3xl font-bold underline">Monitors Status</h1>
+        <h2>Source: GitHub JSON file / OpenSearch Local Instance API</h2>
+        <table class="w-full table-fixed">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Monitor Name</th>
+                    <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Target Index</th>
+                    <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Scan for Message</th>
+                    <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Time to Scan</th>
+                    <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Alert -> Notification Channel</th>
+                    <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for monitor in monitors %}
+                <tr>
+                    <td class="py-4 px-6 border-b border-gray-200">{{ monitor.Monitor_Name }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">{{ monitor.Index }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">{{ monitor.Text2Scan_in_Message }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">{{ monitor.Time2Scan }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">{{ monitor.notification_channel }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">
+                        {% if monitor.status %}
+                            <span class="bg-green-500 text-white py-1 px-2 rounded-full text-xs">Active</span>
+                        {% else %}
+                            <span class="bg-red-500 text-white py-1 px-2 rounded-full text-xs">Not Deployed</span>
+                        {% endif %}
+                    </td>       
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-20 shadow-lg rounded-lg overflow-hidden mx-4 md:mx-10">
+        <h1 class="text-3xl font-bold underline">Deployment Run Status</h1>
+        <h2>Source: Jenkins Local Instance API</h2>
+        <table class="w-full table-fixed">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Run ID</th>
+                    <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Started at (UTC)</th>
+                    <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Finished at (UTC)</th>
+                    <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Run Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pipeline_run in pipeline_runs %}
+                <tr>
+                    <td class="py-4 px-6 border-b border-gray-200">{{ pipeline_run.name }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">{{ pipeline_run.startTimeMillis }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">{{ pipeline_run.endTimeMillis }}</td>
+                    <td class="py-4 px-6 border-b border-gray-200">
+                        {% if pipeline_run.status == "SUCCESS" %}
+                            <span class="bg-green-500 text-white py-1 px-2 rounded-full text-xs">Ran successfully</span>
+                        {% elif pipeline_run.status == "IN_PROGRESS" %}
+                            <span class="bg-yellow-500 text-white py-1 px-2 rounded-full text-xs">In progress</span>
+                        {% elif pipeline_run.status == "FAILED" %}
+                            <span class="bg-red-500 text-white py-1 px-2 rounded-full text-xs">Failed</span>
+                        {% endif %}
+                    </td>       
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
