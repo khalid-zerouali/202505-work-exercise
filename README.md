@@ -32,6 +32,14 @@ You may access the various UIs using the following addresses once everything is 
 - URL for Jenkins: http://localhost:8080/
 - URL for our status UI: http://localhost:5000/
 
+### Demo flow
+The demo is supposed to follow these steps:
+1. Launch the solution (see above).
+1. Access the Status UI: http://localhost:5000/ (notice that no monitors have been deployed yet)
+2. Launch the Jenkins deployment pipeline: http://localhost:8080/job/opensearch-monitors-deployment-pipeline/ (click on Build Now)
+3. Verify that monitors are deployed on the Status UI: http://localhost:5000/
+3. Eventually access OpenSearch Dashboards: http://localhost:5601/app/login (login: admin/ThisIsAdiPass1*)
+
 ### Cleanup/Rebuild
 If you want to start from a clean state (configuration is saved when Docker containers are stopped):
 ```
