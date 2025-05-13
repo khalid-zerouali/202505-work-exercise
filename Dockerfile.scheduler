@@ -6,7 +6,7 @@ RUN apt update && apt install python3-pip python3.11-venv -y
 USER jenkins
 # Initalize Jenkins with JCasC and plugins, to preconfigure everything
 RUN jenkins-plugin-cli --plugins configuration-as-code job-dsl git \
-    locale workflow-job workflow-cps pipeline-graph-view
+    locale workflow-job workflow-cps pipeline-graph-view pipeline-rest-api
 COPY scheduler_config/jenkins.yaml /var/jenkins_home/jenkins.yaml
 # Disable first setup UI
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
