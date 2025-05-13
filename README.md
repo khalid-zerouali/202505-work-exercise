@@ -8,18 +8,53 @@ Please create a pull-request with your changes to the file `monitors.json`.
 Once your changes are automatically checked and validated, you may merge your pull-request.
 
 Opensearch Monitor changes are deployed every night at 01:00am GMT.
-Check the deployment logs at https://scheduler.local/jobs
-
-Contact us first if you want to use this service, we will give you the necessary permissions.
+Check the deployment status at http://localhost:5000/
 
 ## Contact
-Team X is responsible for this repository and deployment flows, contact team_a@company.local for access and support.
+Team X is responsible for this repository and deployment flows, contact team_a@company.local for support.
 
 # For exercise evaluators
+## How to run the solution locally
+### Prerequisites
+You need Docker (=>28.0.4) and Docker Compose (>=v2.34.0) installed.
+
+### Launch
+```
+git clone https://github.com/khalid-zerouali/202505-work-exercise.git
+cd 202505-work-exercise/
+OPENSEARCH_INITIAL_ADMIN_PASSWORD="ThisIsAdiPass1*" OPENSEARCH_HOST=localhost docker compose -f docker-compose-opensearch-ci.yaml up opensearch-node1 opensearch-dashboards jenkins status_ui
+```
+- The Docker Compose command will build and launch the components automatically. Nothing else needs to be done.
+
+### UI access
+You may access the various UIs using the following addresses once everything is running:
+- URL for OpenSearch: http://localhost:5601/app/login (login: admin/ThisIsAdiPass1*)
+- URL for Jenkins: http://localhost:8080/
+- URL for our status UI: http://localhost:5000/
+
+### Demo flow
+The demo is supposed to follow these steps:
+1. Launch the solution (see above).
+1. Access the Status UI: http://localhost:5000/ (notice that no monitors have been deployed yet)
+2. Launch the Jenkins deployment pipeline: http://localhost:8080/job/opensearch-monitors-deployment-pipeline/ (click on Build Now)
+3. Verify that monitors are deployed on the Status UI: http://localhost:5000/
+3. Eventually access OpenSearch Dashboards: http://localhost:5601/app/login (login: admin/ThisIsAdiPass1*)
+
+### Cleanup/Rebuild
+If you want to start from a clean state (configuration is saved when Docker containers are stopped):
+```
+cd 202505-work-exercise/
+docker compose -f docker-compose-opensearch-ci.yaml down opensearch-node1 opensearch-dashboards jenkins status_ui -v
+
+OPENSEARCH_INITIAL_ADMIN_PASSWORD="ThisIsAdiPass1*" OPENSEARCH_HOST=localhost docker compose -f docker-compose-opensearch-ci.yaml up opensearch-node1 opensearch-dashboards jenkins status_ui
+```
+
 ## Design choices
-The entrypoint will be [the design_documents/ folder](./design_documents/01-Business_requirements_and_user_interface.md), starting with the solution requirements file.
+The entrypoint will be [the design_documents/ folder](./design_documents), starting with the solution requirements file.
 ## Deliveries
 For this exercise we have done a proof-of-concept and wrote associated documentation, explaining our assumptions and choices.
-- Providing a way for one user to submit their OpenSearch monitor changes.
+- Providing a way for users to submit their OpenSearch monitor changes.
 - Automatically validating their input and changes.
 - Testing these changes against an ephemeral OpenSearch instance.
+- Deploying these changes periodically using a Jenkins instance and pipeline.
+- Providing a deployment status UI for users.
