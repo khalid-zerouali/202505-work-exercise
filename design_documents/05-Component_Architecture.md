@@ -12,3 +12,4 @@ These components are deployed with Docker/Docker Compose and are hosted on the s
 - `opensearch_ci/` contains scripts needed to create and manage OpenSearch indices and monitors, this is used by the Jenkins pipeline and GitHub Actions.
 - `scheduler_config/` contains Jenkins configuration and pipeline automation files (Groovy), everything is pre-configured when Jenkins starts up for the first time.
 - `status_ui/` contains the Flask web application. This applications retrieves data (JSON file, API data from Jenkins and OpenSearch endpoints).
+- `.github/workflows` contains the GitHub Actions workflow. It triggers jobs on GitHub following pull-request actions (opening, reopening) and runs automation processes on their own nodes. It makes use of their credential management services (through the injection of environment variables stored as secrets).
