@@ -30,27 +30,27 @@ OPENSEARCH_INITIAL_ADMIN_PASSWORD="ThisIsAdiPass1*" OPENSEARCH_HOST=localhost do
 You may access the various UIs using the following addresses once everything is running:
 - URL for OpenSearch: http://localhost:5601/app/login (login: admin/ThisIsAdiPass1*)
 - URL for Jenkins: http://localhost:8080/
-- URL for our status UI: http://localhost:5000/
+- URL for our status UI: http://localhost:5001/
 
 ### Demo flow
 The demo is supposed to follow these steps:
 1. Launch the solution (see above).
-1. Access the Status UI: http://localhost:5000/ (notice that no monitors have been deployed yet)
+1. Access the Status UI: http://localhost:5001/ (notice that no monitors have been deployed yet)
 2. Launch the Jenkins deployment pipeline: http://localhost:8080/job/opensearch-monitors-deployment-pipeline/ (click on Build Now)
-3. Verify that monitors are deployed on the Status UI: http://localhost:5000/
+3. Verify that monitors are deployed on the Status UI: http://localhost:5001/
 3. Eventually access OpenSearch Dashboards: http://localhost:5601/app/login (login: admin/ThisIsAdiPass1*)
 
 ### Cleanup/Rebuild
 If you want to start from a clean state (configuration is saved when Docker containers are stopped):
 ```
 cd 202505-work-exercise/
-docker compose -f docker-compose-opensearch-ci.yaml down opensearch-node1 opensearch-dashboards jenkins status_ui -v
+docker compose -f docker-compose-opensearch-ci.yaml down -v
 
 OPENSEARCH_INITIAL_ADMIN_PASSWORD="ThisIsAdiPass1*" OPENSEARCH_HOST=localhost docker compose -f docker-compose-opensearch-ci.yaml up opensearch-node1 opensearch-dashboards jenkins status_ui
 ```
 
 ## Design choices
-The entrypoint will be [the design_documents/ folder](./design_documents), starting with the solution requirements file.
+The entrypoint will be [the design_documents/ folder](./design_documents), starting with the solution requirements file `01-Business_requirements_and_user_interface.md`
 ## Deliveries
 For this exercise we have done a proof-of-concept and wrote associated documentation, explaining our assumptions and choices.
 - Providing a way for users to submit their OpenSearch monitor changes.
