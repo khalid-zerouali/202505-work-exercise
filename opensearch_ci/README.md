@@ -1,5 +1,8 @@
 ## Local run
+
+We start locally an empty instance of OpenSearch, its UI and a Jenkins instance.
+URL for OpenSearch: http://localhost:5601/app/login (login: admin/ThisIsAdiPass1*)
+URL for Jenkins: http://localhost:8080/
 ```
-# Choose a strong password (>8 chars, lower-uppercase, numbers, special characters)
-OPENSEARCH_INITIAL_ADMIN_PASSWORD="" OPENSEARCH_HOST=localhost docker compose -f docker-compose-opensearch-ci.yaml up
+OPENSEARCH_INITIAL_ADMIN_PASSWORD="ThisIsAdiPass1*" OPENSEARCH_HOST=localhost docker compose -f docker-compose-opensearch-ci.yaml up opensearch-node1 opensearch-dashboards jenkins
 ```

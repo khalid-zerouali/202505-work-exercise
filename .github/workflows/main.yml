@@ -31,5 +31,6 @@ jobs:
         env:
           OPENSEARCH_INITIAL_ADMIN_PASSWORD: ${{ secrets.OPENSEARCH_INITIAL_ADMIN_PASSWORD }}
         # Terminate immediately once the injection and tests are finished, returns the exit code from those tests.
-        run: OPENSEARCH_INITIAL_ADMIN_PASSWORD=$OPENSEARCH_INITIAL_ADMIN_PASSWORD docker compose -f docker-compose-opensearch-ci.yaml up --exit-code-from data-injector
+        # We don't run Jenkins in CI mode
+        run: OPENSEARCH_INITIAL_ADMIN_PASSWORD=$OPENSEARCH_INITIAL_ADMIN_PASSWORD docker compose -f docker-compose-opensearch-ci.yaml up opensearch-node1 opensearch-dashboards data-injector --exit-code-from data-injector
         continue-on-error: false

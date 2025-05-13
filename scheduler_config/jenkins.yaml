@@ -1,0 +1,16 @@
+# Configures Jenkins and defines demo jobs automatically
+# This is a totally unsecured local instance, for demo purposes only.
+jenkins:
+  systemMessage: "OpenSearch Management Jenkins Instance"
+  authorizationStrategy: unsecured
+tool:
+  git:
+    installations:
+      - name: git
+        home: /usr/bin/git
+appearance:
+  locale:
+    systemLocale: en
+    ignoreAcceptLanguage: true
+jobs:
+  - file: /var/jenkins_home/opensearch-monitors-deployment-pipeline.groovy
