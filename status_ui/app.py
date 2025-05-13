@@ -19,7 +19,7 @@ ch.setFormatter(formatter)
 log.addHandler(ch)
 
 
-# Fetch the committed JSON file containing monitors definition
+# Fetch a JSON file from a remote URL (GitHub, Jenkins)
 def retrieve_remote_json(url):
     response = requests.get(url)
     return response.text
