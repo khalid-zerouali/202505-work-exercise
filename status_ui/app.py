@@ -18,7 +18,7 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 ch.setFormatter(formatter)
 log.addHandler(ch)
 
-
+#TODO: Error management if endpoints are unavailable
 # Fetch a JSON file from a remote URL (GitHub, Jenkins)
 def retrieve_remote_json(url):
     response = requests.get(url)

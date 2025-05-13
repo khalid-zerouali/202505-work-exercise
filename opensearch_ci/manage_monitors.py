@@ -14,8 +14,8 @@ ch.setFormatter(formatter)
 log.addHandler(ch)
 
 
-#TODO: json file already validated by the schema validator upstream
-#      but it never hurts to check twice
+#TODO: Idempotence (touch monitors only as required, if no changes-> no actions, no duplicates,
+#      delete obsolote monitors as required, modify existing monitor definitions in-place)
 #NOTE: .opendistro-alerting-config index is not created until
 #      the first monitor is created.
 def update_monitors_on_opensearch(os_client, monitors_json_path):
